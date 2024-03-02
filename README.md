@@ -1,12 +1,12 @@
 # Semester 3 - CESAR School
 A quick summary of all topics covered throughout the semester.
 
+
 ## Software Infrastructure
 General objective:
 To present the concepts, abstractions, fundamentals, mechanisms, and implementations of modern Operating Systems, analyzing the main components and exploring some advanced topics.
 
 Specific objectives:
-
 Understand the operation and algorithms of an operating system;
 Apply concepts present in operating systems in software development, such as deadlock, synchronization, and parallelization;
 Implementation in the Pint-OS operating system.
