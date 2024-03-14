@@ -44,5 +44,3 @@ Implementation in the Pint-OS operating system.
 8. Data classification
 9. Methods of sorting data in primary and secondary memory
 
-## Hardware Infrastructure
-
