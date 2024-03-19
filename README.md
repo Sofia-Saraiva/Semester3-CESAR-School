@@ -1,3 +1,4 @@
+# 🎯 Semester 3 - CESAR School
 <p align="center">
   <img
     src="https://img.shields.io/badge/Status-Em%20desenvolvimento-green?style=flat-square"
@@ -24,9 +25,6 @@
       alt="License"
   /></a>
 </p>
-
-# 🎯 Semester 3 - CESAR School
-A quick summary of all topics covered throughout the semester.
 
 ## 🖥️ Software Infrastructure
 
