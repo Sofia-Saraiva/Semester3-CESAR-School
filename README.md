@@ -81,11 +81,5 @@ This module focuses on fundamental algorithms and data structures that are essen
     8. Data classification
     9. Methods of sorting data in primary and secondary memory
 
-## 👨‍👩‍👧‍👦 Contribuintes
-  
-<a href="https://github.com/Sofia-Saraiva/Semester3-CESAR-School/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Sofia-Saraiva/Semester3-CESAR-School" />
-</a>
-<br>
 
 Feel free to explore each section for in-depth information about the topics covered in my Semester 3 at CESAR School!
