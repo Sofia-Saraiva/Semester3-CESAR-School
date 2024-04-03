@@ -47,7 +47,7 @@ The general objective of this module is to present the concepts, abstractions, f
     8. Storage structure
     9. Input/output
 
-## 🗂️ OOP (Object-Oriented Programming)
+## 🗂️ Object-Oriented Programming
 
 ### 👀 Overview
 In this module, we dive into Object-Oriented Programming (OOP) concepts and their practical applications.
