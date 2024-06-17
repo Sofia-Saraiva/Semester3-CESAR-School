@@ -1,0 +1,114 @@
+busy wait: ocorre quando um processo ou thread entra em um loop contínuo, verificando repetidamente uma condição até que ela se torne verdadeira
+
+modificar:
+- threads/thread.c
+	funcoes:
+		- thread_init() OK
+- devices/timer.c
+	funcoes
+		- timer_sleep() OK 
+		- timer_interrupt()
+
+
+- criar sleep_list: 
+	declaro no inicio do codigo:
+		static struct list sleep_list; 
+	inicializo com list_init(&sleep_list) dentro de thread_init()
+
+- thread.h: criar novo atributo para local tick (store the time to wakeup)
+	dentro da struct de thread:
+		int64_t tick_wakeup; 
+
+- timer_sleep():
+	depois que rodar, insere thread na tail da sleep list
+
+- wakeup():
+	tira a thread da head da sleep list para a tail da ready list
+
+
+thread_sleep(int64_t ticks):
+
+if cur_thread != idle_thread
+	change thread state to BLOCKED
+	store the local tick
+	update the global if necessary
+	schedule();
+disable interrupt when manipulating thread list
+
+timer_interrupt():
+	code to add:
+		check sleep list and global tick
+		find any threads to wake up
+		move them to the ready list if necessary
+		update global tick
+
+
+
+
+
+
+alterado:
+
+struct thread
+  {
+    /* Owned by thread.c. */
+    tid_t tid;                          /* Thread identifier. */
+    enum thread_status status;          /* Thread state. */
+    char name[16];                      /* Name (for debugging purposes). */
+    uint8_t *stack;                     /* Saved stack pointer. */
+    int priority;                       /* Priority. */
+    struct list_elem allelem;           /* List element for all threads list. */
+    int64_t tick_wakeup; // sofia
+
+    /* Shared between thread.c and synch.c. */
+    struct list_elem elem;              /* List element. */
+
+
+void thread_sleep(int64_t ticks) { // sofia
+  struct thread *cur = thread_current ();
+  enum intr_level old_level;
+
+  if (cur != idle_thread) {
+      old_level = intr_disable (); // disable interrupt
+      list_push_back(&sleep_list, &cur->elem); // add thread to sleep list
+      cur->tick_wakeup = ticks; // tick_wakeup == start + ticks
+      cur->status = THREAD_BLOCKED; // blocks thread
+      schedule(); // context switch
+      intr_set_level (old_level); // enable interrupt
+  }
+  
+}
+
+static void
+timer_interrupt (struct intr_frame *args UNUSED)
+{
+  ticks++;
+  thread_tick ();
+
+  struct list_elem *aux = list_begin(&sleep_list); // sofia
+  while (aux != list_end(&sleep_list)) {
+    struct thread *t = list_entry(aux, struct thread, elem);
+
+    if (t->tick_wakeup <= ticks) {
+      aux = list_remove(aux);
+      thread_unblock(t);
+    }
+    else {
+      aux = list_next(aux);
+    }
+  }
+}
+
+void
+timer_sleep (int64_t ticks) 
+{
+  int64_t start = timer_ticks ();
+
+  ASSERT (intr_get_level () == INTR_ON);
+  //while (timer_elapsed (start) < ticks) 
+    //thread_yield ();
+
+  if (timer_elapsed (start) < ticks)  {
+    thread_sleep(start + ticks);
+  }
+}
